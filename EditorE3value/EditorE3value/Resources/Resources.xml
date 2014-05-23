@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <resources>
-
+	<image name="actor">
+		<image-file file="actor.png" />
+	</image>
 </resources>

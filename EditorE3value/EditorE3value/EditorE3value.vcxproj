@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor.h" />
     <ClInclude Include="editor.h" />
     <ClInclude Include="precomp.h" />
     <ClInclude Include="program.h" />
