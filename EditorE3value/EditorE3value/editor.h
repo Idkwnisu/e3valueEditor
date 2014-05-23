@@ -1,3 +1,4 @@
+
 #pragma once
 
 class Editor
@@ -7,4 +8,6 @@ public:
 
 private:
 	bool on_window_close(GUIComponent *gui);
+	
+	bool actor_create(const InputEvent &input_event); 
 };

@@ -17,6 +17,7 @@
     <ClInclude Include="program.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="editor.cpp" />
     <ClCompile Include="precomp.cpp" />
     <ClCompile Include="program.cpp" />
