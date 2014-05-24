@@ -47,10 +47,7 @@ bool Actor::Update(const InputEvent &input_event)
 	int x = (position.x - prevX)+imgActor->get_geometry().left;
 	int y = (position.y - prevY)+imgActor->get_geometry().top;
 	
-		MoveTo(x,y);
-	
-	prevX = position.x;
-	prevY = position.y;
+	MoveTo(x,y);
 	}
 	return true;
 }

@@ -5,8 +5,8 @@
 #define SCREEN_HEIGHT 600
 
 	std::vector<Actor> actorList;
-
-	
+	clan::GUIComponent *window;
+	Actor act;
 int Editor::main(const std::vector<std::string> &args)
 {
 
@@ -25,9 +25,9 @@ int Editor::main(const std::vector<std::string> &args)
 	win_desc.set_title("Editor");
 	win_desc.set_position(clan::Rect(100, 100, Size(SCREEN_WIDTH,SCREEN_HEIGHT)), false);
 
-	clan::GUIComponent window(&gui, win_desc, "Window");
-	window.func_close().set(this, &Editor::on_window_close, &window);
-	clan::MenuBar mb(&window);
+	window= new clan::GUIComponent (&gui, win_desc, "Window");
+	window->func_close().set(this, &Editor::on_window_close, window);
+	clan::MenuBar mb(window);
 	mb.set_geometry(clan::Rect(0, 0, Size(SCREEN_WIDTH,30)));
 	clan::PopupMenu ppMenu;
 	ppMenu.insert_item("New");
@@ -36,9 +36,9 @@ int Editor::main(const std::vector<std::string> &args)
 	ppMenu.set_minimum_width(100);
 	mb.add_menu("File",ppMenu);
 
-	clan::Image actor(window.get_canvas(), "Resources/actor.png");
+	clan::Image actor(window->get_canvas(), "Resources/actor.png");
 
-	clan::ImageView actorCreator(&window);
+	clan::ImageView actorCreator(window);
 	actorCreator.set_image(actor);
 	actorCreator.set_geometry(clan::Rect(0,SCREEN_HEIGHT-actor.get_height(),Size(actor.get_width()*0.75,actor.get_height()*0.75)));
 	actorCreator.func_input_pressed().set(this,&Editor::actor_create);
@@ -47,8 +47,6 @@ int Editor::main(const std::vector<std::string> &args)
 	newLabel.set_geometry(clan::Rect(actor.get_width()*0.25,actor.get_height()*0.25,Size(100,20)));//0.25 -> circa metà dell'immagine ridimensionata
 	newLabel.set_text("New Actor");
 
-	Actor act;
-	act.Init("Resources/actor.png",&window,200,200);
 
 
 	gui.exec();
@@ -64,5 +62,8 @@ bool Editor::on_window_close(clan::GUIComponent *gui)
 
 bool Editor::actor_create(const InputEvent &input_event)
 {
+
+	act.Init("Resources/actor.png",window,0,500);
+	actorList.push_back(act);
 	return true;
 }
