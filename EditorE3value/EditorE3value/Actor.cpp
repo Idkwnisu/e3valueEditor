@@ -1,11 +1,6 @@
 #include "Actor.h"
 
-Actor::Actor()
-{
-	
-}
-
-void Actor::Init(std::string imgPath,GUIComponent* win,int x, int y)
+Actor::Actor(std::string imgPath,GUIComponent* win,GUIComponent* propwin,int x, int y)
 {
 	img = new clan::Image(win->get_canvas(), "Resources/actor.png");
 	//isMoving = true;
@@ -18,6 +13,38 @@ void Actor::Init(std::string imgPath,GUIComponent* win,int x, int y)
 	imgActor->func_input_released().set(this,&Actor::actor_released);
 
 	imgActor->func_input_pointer_moved().set(this,&Actor::Update);
+
+	propertiesWindow = propwin;
+	
+	label = new clan::Label(imgActor);
+	label->set_geometry(clan::Rect(img->get_width()/3,img->get_height()/3,Size(100,30)));
+	label->set_text("Actor");
+}
+
+void Actor::Init(std::string imgPath,GUIComponent* win,GUIComponent* propwin,int x, int y)
+{
+	img = new clan::Image(win->get_canvas(), "Resources/actor.png");
+	//isMoving = true;
+	isMoving = false;
+
+	imgActor = new clan::ImageView(win);
+	imgActor->set_image(*img);
+	imgActor->set_geometry(clan::Rect(x,y,Size(img->get_width(),img->get_height())));
+	imgActor->func_input_pressed().set(this,&Actor::actor_clicked);
+	imgActor->func_input_released().set(this,&Actor::actor_released);
+
+	imgActor->func_input_pointer_moved().set(this,&Actor::Update);
+
+	propertiesWindow = propwin;
+	
+	label = new clan::Label(imgActor);
+	label->set_geometry(clan::Rect(img->get_width()/3,img->get_height()/3,Size(100,30)));
+	label->set_text("Actor");
+}
+
+void Actor::setText(std::string string)
+{
+	label->set_text(string);
 }
 
 void Actor::MoveTo(int x, int y)
@@ -27,9 +54,14 @@ void Actor::MoveTo(int x, int y)
 
 bool Actor::actor_clicked(const InputEvent &input_event)
 {
-	prevX = input_event.mouse_pos.x;
+	if(input_event.id == mouse_left)
+	{prevX = input_event.mouse_pos.x;
 	prevY = input_event.mouse_pos.y;
-	isMoving = true;
+	isMoving = true;}
+	if(input_event.id == mouse_right)
+	{
+		propertiesWindow->set_visible(true);
+	}
 	return true;
 }
 
