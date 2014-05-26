@@ -5,15 +5,21 @@
 #define SCREEN_HEIGHT 600
 
 	std::vector<Actor> actorList;
+
+	std::vector<clan::LineSegment2f> linkList;
+	std::vector<std::string> values; //stringhe di valori dei collegamenti
+
 	clan::GUIComponent *window;
 	clan::GUIComponent* popupwindow;
 	clan::LineEdit* lineedit;
+
+	clan::Font *font;
 
 	static clan::Label* toMod; //puntatore alla label dell'attore da modificare
 
 int Editor::main(const std::vector<std::string> &args)
 {
-
+	
 	std::string theme;
 	if (clan::FileHelp::file_exists("Resources/GUIThemeAero/theme.css"))
 		theme = "Resources/GUIThemeAero";
@@ -31,6 +37,7 @@ int Editor::main(const std::vector<std::string> &args)
 
 	window= new clan::GUIComponent (&gui, win_desc, "Window");
 	window->func_close().set(this, &Editor::on_window_close, window);
+	window->func_render().set(this, &Editor::on_window_draw);
 
 	GUIManager gui2(theme);
 	clan::DisplayWindowDescription popup_desc;
@@ -78,6 +85,12 @@ int Editor::main(const std::vector<std::string> &args)
 	newLabel.set_text("New Actor");
 
 
+
+	font = new clan::Font(window->get_canvas(),"tahoma",18);
+
+
+
+
 	gui.exec();
 
 	return 0;
@@ -93,6 +106,31 @@ void Editor::on_button_ok_clicked(clan::PushButton *button)
 {
 	toMod->set_text(lineedit->get_text());
 	popupwindow->set_visible(false);
+}
+
+void Editor::on_window_draw(Canvas &canvas, const clan::Rect &clip_rect)
+{
+	for(int z = 0; z < linkList.size(); z++)
+	{
+		canvas.draw_line(linkList.at(z),Colorf::black);
+		font->draw_text(canvas,linkList.at(z).p,values.at(z),clan::Colorf(0,0,0));
+	}
+	for(int z = 0; z < actorList.size(); z++)
+	{
+		if(actorList.at(z).isToConnect)//un attore da collegare
+		{
+			for(int y = z+1; y < actorList.size(); y++)
+			{
+				if(actorList.at(y).isToConnect)//due attori da collegare
+				{
+					linkList.push_back(*(new LineSegment2f(clan::Vec2f(100,100),Vec2f(200,200))));
+					values.push_back("value");
+					actorList.at(z).setConnecting(false);
+					actorList.at(y).setConnecting(false);
+				}
+			}
+		}
+	}
 }
 
 bool Editor::actor_create(const InputEvent &input_event)

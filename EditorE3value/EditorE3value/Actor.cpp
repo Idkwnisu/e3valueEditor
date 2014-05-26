@@ -20,6 +20,8 @@ Actor::Actor(std::string imgPath,GUIComponent* win,GUIComponent* propwin,Label**
 	label->set_geometry(clan::Rect(img->get_width()/3,img->get_height()/3,Size(100,30)));
 	label->set_text("Actor");
 
+	isToConnect = false;
+
 	LabelPointer = labelPointer;
 }
 
@@ -43,7 +45,14 @@ void Actor::Init(std::string imgPath,GUIComponent* win,GUIComponent* propwin,Lab
 	label->set_geometry(clan::Rect(img->get_width()/3,img->get_height()/3,Size(100,30)));
 	label->set_text("Actor");
 
+	isToConnect = false;
+
 	LabelPointer = labelPointer;
+}
+
+void Actor::setConnecting(bool flag)
+{
+	isToConnect = flag;
 }
 
 void Actor::setText(std::string string)
@@ -58,10 +67,20 @@ void Actor::MoveTo(int x, int y)
 
 bool Actor::actor_clicked(const InputEvent &input_event)
 {
+	Point position = input_event.mouse_pos;
 	if(input_event.id == mouse_left)
-	{prevX = input_event.mouse_pos.x;
-	prevY = input_event.mouse_pos.y;
-	isMoving = true;}
+	{
+		if(position.y > 90)
+		{
+			isToConnect = true;
+		}
+		else
+		{
+			prevX = input_event.mouse_pos.x;
+			prevY = input_event.mouse_pos.y;
+			isMoving = true;
+		}
+	}
 	if(input_event.id == mouse_right)
 	{
 		propertiesWindow->set_visible(true);

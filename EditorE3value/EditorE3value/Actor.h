@@ -11,11 +11,13 @@ public : Actor(std::string imgPath,GUIComponent* win,GUIComponent* propwin,Label
 		 clan::Label** LabelPointer;
 		 clan::GUIComponent* propertiesWindow;
 
-
+		 bool isToConnect;
+		 
 		 int prevX;
 		 int prevY;
 		 bool isMoving;
 		 
+		 void setConnecting(bool flag);
 		 void setText(std::string string);
 
 		 bool Update(const InputEvent &input_event);
