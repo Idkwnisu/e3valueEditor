@@ -7,6 +7,10 @@
 	std::vector<Actor> actorList;
 	clan::GUIComponent *window;
 	clan::GUIComponent* popupwindow;
+	clan::LineEdit* lineedit;
+
+	static clan::Label* toMod; //puntatore alla label dell'attore da modificare
+
 int Editor::main(const std::vector<std::string> &args)
 {
 
@@ -37,11 +41,20 @@ int Editor::main(const std::vector<std::string> &args)
 	popupwindow = new clan::GUIComponent (&gui2, popup_desc, "Window");
 	popupwindow->set_visible(false);
 
+	clan::Label* label = new clan::Label(popupwindow);
+	label->set_geometry(clan::Rect(0,0,clan::Size(40,20)));
+	label->set_text("Nome");
 
+	lineedit = new clan::LineEdit(popupwindow);
+	lineedit->set_geometry(clan::Rect(40, 0, clan::Size(100, 30)));
+	lineedit->set_text("LineEdit");
 
-	clan::LineEdit* pushbutton1 = new clan::LineEdit(popupwindow);
-	pushbutton1->set_geometry(clan::Rect(0, 0, clan::Size(128, 40)));
-	pushbutton1->set_text("LineEdit");
+	clan::PushButton* OKButton = new clan::PushButton(popupwindow);
+	OKButton->set_geometry(clan::Rect(10,40,clan::Size(70,30)));
+	OKButton->set_text("OK");
+	OKButton->func_clicked().set(this, &Editor::on_button_ok_clicked, OKButton);
+
+	toMod = new Label(window);
 
 	clan::MenuBar mb(window);
 	mb.set_geometry(clan::Rect(0, 0, Size(SCREEN_WIDTH,30)));
@@ -76,8 +89,14 @@ bool Editor::on_window_close(clan::GUIComponent *gui)
 	return true;
 }
 
+void Editor::on_button_ok_clicked(clan::PushButton *button)
+{
+	toMod->set_text(lineedit->get_text());
+	popupwindow->set_visible(false);
+}
+
 bool Editor::actor_create(const InputEvent &input_event)
 {
-	actorList.push_back(*new Actor("Resources/actor.png",window,popupwindow,0,500));
+	actorList.push_back(*new Actor("Resources/actor.png",window,popupwindow,&toMod,0,500));
 	return true;
 }

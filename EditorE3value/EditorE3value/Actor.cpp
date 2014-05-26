@@ -1,6 +1,6 @@
 #include "Actor.h"
 
-Actor::Actor(std::string imgPath,GUIComponent* win,GUIComponent* propwin,int x, int y)
+Actor::Actor(std::string imgPath,GUIComponent* win,GUIComponent* propwin,Label** labelPointer,int x, int y)
 {
 	img = new clan::Image(win->get_canvas(), "Resources/actor.png");
 	//isMoving = true;
@@ -19,9 +19,11 @@ Actor::Actor(std::string imgPath,GUIComponent* win,GUIComponent* propwin,int x, 
 	label = new clan::Label(imgActor);
 	label->set_geometry(clan::Rect(img->get_width()/3,img->get_height()/3,Size(100,30)));
 	label->set_text("Actor");
+
+	LabelPointer = labelPointer;
 }
 
-void Actor::Init(std::string imgPath,GUIComponent* win,GUIComponent* propwin,int x, int y)
+void Actor::Init(std::string imgPath,GUIComponent* win,GUIComponent* propwin,Label** labelPointer,int x, int y)
 {
 	img = new clan::Image(win->get_canvas(), "Resources/actor.png");
 	//isMoving = true;
@@ -40,6 +42,8 @@ void Actor::Init(std::string imgPath,GUIComponent* win,GUIComponent* propwin,int
 	label = new clan::Label(imgActor);
 	label->set_geometry(clan::Rect(img->get_width()/3,img->get_height()/3,Size(100,30)));
 	label->set_text("Actor");
+
+	LabelPointer = labelPointer;
 }
 
 void Actor::setText(std::string string)
@@ -61,6 +65,7 @@ bool Actor::actor_clicked(const InputEvent &input_event)
 	if(input_event.id == mouse_right)
 	{
 		propertiesWindow->set_visible(true);
+		*LabelPointer = label;
 	}
 	return true;
 }
