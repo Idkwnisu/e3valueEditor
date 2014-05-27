@@ -95,6 +95,11 @@ bool Actor::actor_released(const InputEvent &input_event)
 	return true;
 }
 
+bool Actor::getIsToConnect()
+{
+	return isToConnect;
+}
+
 bool Actor::Update(const InputEvent &input_event)
 {
 	if(isMoving){

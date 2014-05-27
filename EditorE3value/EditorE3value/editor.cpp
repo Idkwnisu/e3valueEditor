@@ -117,11 +117,11 @@ void Editor::on_window_draw(Canvas &canvas, const clan::Rect &clip_rect)
 	}
 	for(int z = 0; z < actorList.size(); z++)
 	{
-		if(actorList.at(z).isToConnect)//un attore da collegare
+		if(actorList.at(z).getIsToConnect())//un attore da collegare
 		{
 			for(int y = z+1; y < actorList.size(); y++)
 			{
-				if(actorList.at(y).isToConnect)//due attori da collegare
+				if(actorList.at(y).getIsToConnect())//due attori da collegare
 				{
 					linkList.push_back(*(new LineSegment2f(clan::Vec2f(100,100),Vec2f(200,200))));
 					values.push_back("value");

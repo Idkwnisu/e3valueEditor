@@ -1,4 +1,4 @@
-﻿Build started 26/05/2014 20:58:38.
+﻿Build started 26/05/2014 21:34:35.
      1>Project "C:\Users\Stefano\Documents\GitHub\e3valueEditor\EditorE3value\EditorE3value\EditorE3value.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\EditorE3value.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -14,4 +14,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.13
+Time Elapsed 00:00:00.06
