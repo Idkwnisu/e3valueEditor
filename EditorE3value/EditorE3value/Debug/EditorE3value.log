@@ -1,17 +1,71 @@
-﻿Build started 26/05/2014 21:34:35.
-     1>Project "C:\Users\Stefano\Documents\GitHub\e3valueEditor\EditorE3value\EditorE3value\EditorE3value.vcxproj" on node 2 (build target(s)).
+﻿Build started 27/05/2014 20:12:23.
+     1>Project "C:\Users\Stefano\e3valueEditor\EditorE3value\EditorE3value\EditorE3value.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\EditorE3value.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt editor.cpp
+         editor.cpp
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(108): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(108): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(112): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(112): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(138): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(157): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(161): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(171): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(173): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(173): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(174): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(174): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(176): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(176): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(177): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(177): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(180): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(180): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(181): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(181): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(183): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(183): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(184): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(184): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(186): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(190): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(194): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(194): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(194): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(194): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(196): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(196): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(199): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(199): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(199): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(199): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(201): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(201): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(217): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(221): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(221): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(221): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(221): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(223): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(223): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(223): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\stefano\e3valueeditor\editore3value\editore3value\editor.cpp(223): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
        Link:
-         All outputs are up-to-date.
-         EditorE3value.vcxproj -> C:\Users\Stefano\Documents\GitHub\e3valueEditor\EditorE3value\Debug\EditorE3value.exe
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Stefano\e3valueEditor\EditorE3value\Debug\EditorE3value.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\EditorE3value.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Stefano\e3valueEditor\EditorE3value\Debug\EditorE3value.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Stefano\e3valueEditor\EditorE3value\Debug\EditorE3value.lib" /MACHINE:X86 Debug\Actor.obj
+         Debug\editor.obj
+         Debug\precomp.obj
+         Debug\program.obj
+     1>Actor.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+         EditorE3value.vcxproj -> C:\Users\Stefano\e3valueEditor\EditorE3value\Debug\EditorE3value.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Stefano\e3valueEditor\EditorE3value\Debug\EditorE3value.exe;#1" /manifest Debug\EditorE3value.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file "Debug\EditorE3value.unsuccessfulbuild".
          Touching "Debug\EditorE3value.lastbuildstate".
-     1>Done Building Project "C:\Users\Stefano\Documents\GitHub\e3valueEditor\EditorE3value\EditorE3value\EditorE3value.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Stefano\e3valueEditor\EditorE3value\EditorE3value\EditorE3value.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.06
+Time Elapsed 00:00:06.87

@@ -1,19 +1,35 @@
+#include <sstream>
+
+
 #include "precomp.h"
 #include "editor.h"
 #include "Actor.h"
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
+#define FIRST_ACTOR_X 70
+#define FIRST_ACTOR_Y 115
+#define SECOND_ACTOR_X 110
+#define SECOND_ACTOR_Y 115
+#define FONT_SIZE 18
 
-	std::vector<Actor> actorList;
+	std::vector<Actor*> actorList;
 
 	std::vector<clan::LineSegment2f> linkList;
 	std::vector<std::string> values; //stringhe di valori dei collegamenti
+	std::vector<clan::Pointf> actorsLinked; //attori collegati (in modo da spostare i collegamenti)
 
 	clan::GUIComponent *window;
 	clan::GUIComponent* popupwindow;
 	clan::LineEdit* lineedit;
 
+	clan::InputDevice device;
+
 	clan::Font *font;
+
+	clan::Spin* spin;
+
+	int valueToChange = -1; //valore che indica la label dei collegamenti da cambiare, se è -1 vuol dire che non è stato chiamato da nessun testo per cui
+								//deve cambiare il valore di un attore
 
 	static clan::Label* toMod; //puntatore alla label dell'attore da modificare
 
@@ -39,6 +55,13 @@ int Editor::main(const std::vector<std::string> &args)
 	window->func_close().set(this, &Editor::on_window_close, window);
 	window->func_render().set(this, &Editor::on_window_draw);
 
+	window->set_constant_repaint(true);
+
+	InputContext ic = window->get_ic();
+	device = ic.get_mouse();
+	Slot slot = device.sig_key_up().connect(this, &Editor::on_right_mouse_click);
+
+
 	GUIManager gui2(theme);
 	clan::DisplayWindowDescription popup_desc;
 	popup_desc.set_allow_resize(false);
@@ -63,6 +86,11 @@ int Editor::main(const std::vector<std::string> &args)
 
 	toMod = new Label(window);
 
+	spin = new clan::Spin(popupwindow);
+	spin->set_geometry(clan::Rect(100,40,Size(80,20)));
+
+
+
 	clan::MenuBar mb(window);
 	mb.set_geometry(clan::Rect(0, 0, Size(SCREEN_WIDTH,30)));
 	clan::PopupMenu ppMenu;
@@ -86,7 +114,7 @@ int Editor::main(const std::vector<std::string> &args)
 
 
 
-	font = new clan::Font(window->get_canvas(),"tahoma",18);
+	font = new clan::Font(window->get_canvas(),"tahoma",FONT_SIZE);
 
 
 
@@ -104,30 +132,100 @@ bool Editor::on_window_close(clan::GUIComponent *gui)
 
 void Editor::on_button_ok_clicked(clan::PushButton *button)
 {
-	toMod->set_text(lineedit->get_text());
+	if(valueToChange < 0)
+	{
+		toMod->set_text(lineedit->get_text());
+		for(int z = 0; z<actorList.size(); z++)
+		{
+			if(toMod == actorList.at(z)->label)
+			{
+				actorList.at(z)->setMult(spin->get_value());
+			}
+		}
+	}
+	else
+		{
+			values.at(valueToChange) = lineedit->get_text();
+			valueToChange = -1;
+			spin->set_visible(true);
+		}
 	popupwindow->set_visible(false);
 }
 
 void Editor::on_window_draw(Canvas &canvas, const clan::Rect &clip_rect)
 {
+	for(int z = 0; z < actorList.size(); z++)
+	{
+		font->draw_text(canvas,actorList.at(z)->imgActor->get_geometry().get_top_left().x,actorList.at(z)->imgActor->get_geometry().get_top_left().y,intToString(actorList.at(z)->getMult()),Colorf::black);//disegna la molteplicità degli attori
+	}
 	for(int z = 0; z < linkList.size(); z++)
 	{
 		canvas.draw_line(linkList.at(z),Colorf::black);
-		font->draw_text(canvas,linkList.at(z).p,values.at(z),clan::Colorf(0,0,0));
+		clan::LineSegment2f* line = new LineSegment2f(linkList.at(z));
+		if(z % 2 == 0) //pari, vuol dire che è il segmento di andata
+			line->p.x -= values.at(z).length();  //dimensione della stringa / dimensione carattere 
+
+		line->p.y += 20;
+		font->draw_text(canvas,line->p,values.at(z),clan::Colorf(0,0,0));
+	}
+	for(int z = 0; z < actorsLinked.size(); z = z + 2) //assumiamo che siano pari perché esistono per forza due collegamenti per ogni attore
+	{
+		linkList.at(z).p.x = actorList.at(actorsLinked.at(z).x)->imgActor->get_geometry().get_top_left().x + FIRST_ACTOR_X; //assegna ai collegamenti la posizione degli attori
+		linkList.at(z).p.y = actorList.at(actorsLinked.at(z).x)->imgActor->get_geometry().get_top_left().y + FIRST_ACTOR_Y;
+
+		linkList.at(z).q.x = actorList.at(actorsLinked.at(z).y)->imgActor->get_geometry().get_top_left().x + FIRST_ACTOR_X;
+		linkList.at(z).q.y = actorList.at(actorsLinked.at(z).y)->imgActor->get_geometry().get_top_left().y + FIRST_ACTOR_Y;
+
+
+		linkList.at(z+1).p.x = actorList.at(actorsLinked.at(z+1).x)->imgActor->get_geometry().get_top_left().x + SECOND_ACTOR_X; //assegna ai collegamenti la posizione degli attori
+		linkList.at(z+1).p.y = actorList.at(actorsLinked.at(z+1).x)->imgActor->get_geometry().get_top_left().y + SECOND_ACTOR_Y;
+
+		linkList.at(z+1).q.x = actorList.at(actorsLinked.at(z+1).y)->imgActor->get_geometry().get_top_left().x + SECOND_ACTOR_X;
+		linkList.at(z+1).q.y = actorList.at(actorsLinked.at(z+1).y)->imgActor->get_geometry().get_top_left().y + SECOND_ACTOR_Y;
 	}
 	for(int z = 0; z < actorList.size(); z++)
 	{
-		if(actorList.at(z).getIsToConnect())//un attore da collegare
+		if(actorList.at(z)->isToConnect)//un attore da collegare
 		{
 			for(int y = z+1; y < actorList.size(); y++)
 			{
-				if(actorList.at(y).getIsToConnect())//due attori da collegare
+				if(actorList.at(y)->isToConnect)//due attori da collegare
 				{
-					linkList.push_back(*(new LineSegment2f(clan::Vec2f(100,100),Vec2f(200,200))));
+					linkList.push_back(*(new LineSegment2f(clan::Vec2f(actorList.at(z)->imgActor->get_geometry().get_top_left().x,actorList.at(z)->imgActor->get_geometry().get_top_left().y),Vec2f(actorList.at(y)->imgActor->get_geometry().get_top_left().x,actorList.at(y)->imgActor->get_geometry().get_top_left().y))));
 					values.push_back("value");
-					actorList.at(z).setConnecting(false);
-					actorList.at(y).setConnecting(false);
+					actorsLinked.push_back(clan::Pointf(z,y));
+					
+
+					linkList.push_back(*(new LineSegment2f(clan::Vec2f(actorList.at(y)->imgActor->get_geometry().get_top_left().x,actorList.at(y)->imgActor->get_geometry().get_top_left().y),Vec2f(actorList.at(z)->imgActor->get_geometry().get_top_left().x,actorList.at(z)->imgActor->get_geometry().get_top_left().y))));
+					values.push_back("value");
+					actorsLinked.push_back(clan::Pointf(y,z));
+
+
+					actorList.at(z)->setConnecting(false);
+					actorList.at(y)->setConnecting(false);
 				}
+			}
+		}
+	}
+}
+
+void Editor::on_right_mouse_click(const InputEvent &key)
+{
+	if(key.id == mouse_right)
+	{
+		Pointf p = key.mouse_pos;
+		for(int z = 0; z < values.size(); z++)
+		{
+			clan::Rect* valueRect;
+			if(z%2 == 0)
+				valueRect = new clan::Rect(linkList.at(z).p.x - 10,linkList.at(z).p.y - 10,linkList.at(z).p.x + values.at(z).length()*10,linkList.at(z).p.y + 30);
+			else
+				valueRect = new clan::Rect(linkList.at(z).p.x - 10,linkList.at(z).p.y - 10,linkList.at(z).p.x + values.at(z).length()*10,linkList.at(z).p.y + 30);
+			if(valueRect->contains(p))
+			{
+				popupwindow->set_visible(true);//controlla che il click sia avvenuto sul testo
+				spin->set_visible(false);
+				valueToChange = z;
 			}
 		}
 	}
@@ -135,6 +233,12 @@ void Editor::on_window_draw(Canvas &canvas, const clan::Rect &clip_rect)
 
 bool Editor::actor_create(const InputEvent &input_event)
 {
-	actorList.push_back(*new Actor("Resources/actor.png",window,popupwindow,&toMod,0,500));
+	actorList.push_back(new Actor("Resources/actor.png",window,popupwindow,&toMod,0,500));
 	return true;
+}
+
+std::string Editor::intToString(int value) {
+    std::stringstream ss;
+    ss << value;
+    return ss.str();
 }

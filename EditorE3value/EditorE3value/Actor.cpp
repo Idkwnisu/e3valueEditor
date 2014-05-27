@@ -23,6 +23,8 @@ Actor::Actor(std::string imgPath,GUIComponent* win,GUIComponent* propwin,Label**
 	isToConnect = false;
 
 	LabelPointer = labelPointer;
+
+	multiplicity = 1;
 }
 
 void Actor::Init(std::string imgPath,GUIComponent* win,GUIComponent* propwin,Label** labelPointer,int x, int y)
@@ -48,6 +50,18 @@ void Actor::Init(std::string imgPath,GUIComponent* win,GUIComponent* propwin,Lab
 	isToConnect = false;
 
 	LabelPointer = labelPointer;
+
+	multiplicity = 1;
+}
+
+void Actor::setMult(int m)
+{
+	multiplicity = m;
+}
+
+int Actor::getMult()
+{
+	return multiplicity;
 }
 
 void Actor::setConnecting(bool flag)
@@ -93,11 +107,6 @@ bool Actor::actor_released(const InputEvent &input_event)
 {
 	isMoving = false;
 	return true;
-}
-
-bool Actor::getIsToConnect()
-{
-	return isToConnect;
 }
 
 bool Actor::Update(const InputEvent &input_event)

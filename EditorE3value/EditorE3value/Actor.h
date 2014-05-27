@@ -11,7 +11,13 @@ public : Actor(std::string imgPath,GUIComponent* win,GUIComponent* propwin,Label
 		 clan::Label** LabelPointer;
 		 clan::GUIComponent* propertiesWindow;
 
-		
+		 int multiplicity;
+		 void setMult(int m);
+		 int getMult();
+
+
+		 bool isToConnect;
+		 
 		 int prevX;
 		 int prevY;
 		 bool isMoving;
@@ -19,13 +25,7 @@ public : Actor(std::string imgPath,GUIComponent* win,GUIComponent* propwin,Label
 		 void setConnecting(bool flag);
 		 void setText(std::string string);
 
-		 bool getIsToConnect();
-
 		 bool Update(const InputEvent &input_event);
 		 bool actor_clicked(const InputEvent &input_event);
 		 bool actor_released(const InputEvent &input_event);
-private:
-	 bool isToConnect;
-		 
-
 };
