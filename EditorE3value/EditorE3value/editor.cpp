@@ -66,7 +66,7 @@ int Editor::main(const std::vector<std::string> &args)
 	clan::DisplayWindowDescription popup_desc;
 	popup_desc.set_allow_resize(false);
 	popup_desc.set_title("Properties");
-	popup_desc.set_position(clan::Rect(100, 100, Size(200,100)), false);
+	popup_desc.set_position(clan::Rect(100, 100, Size(300,100)), false);
 
 	popupwindow = new clan::GUIComponent (&gui2, popup_desc, "Window");
 	popupwindow->set_visible(false);
@@ -83,6 +83,12 @@ int Editor::main(const std::vector<std::string> &args)
 	OKButton->set_geometry(clan::Rect(10,40,clan::Size(70,30)));
 	OKButton->set_text("OK");
 	OKButton->func_clicked().set(this, &Editor::on_button_ok_clicked, OKButton);
+
+	clan::PushButton* DeleteButton = new clan::PushButton(popupwindow);
+	DeleteButton->set_geometry(clan::Rect(200,40,clan::Size(70,30)));
+	DeleteButton->set_text("Delete");
+	DeleteButton->func_clicked().set(this, &Editor::on_button_delete_clicked, DeleteButton);
+
 
 	toMod = new Label(window);
 
@@ -130,6 +136,31 @@ bool Editor::on_window_close(clan::GUIComponent *gui)
 	return true;
 }
 
+void Editor::on_button_delete_clicked(clan::PushButton *button)
+{
+	if(valueToChange < 0)
+	{
+		int Actors = actorList.size();
+		for(int z = 0; z<Actors; z++)
+		{
+			if(toMod == actorList.at(z)->label) //controlla l'attore interessato tramite l'indirizzo della sua label
+			{
+				actorList.at(z)->imgActor->~ImageView();
+				actorList.erase(actorList.begin()+z);
+				delete_all_actor_links(z);
+				z = 0;				//z azzerato e numero di attori aggiornati, altrimenti togliendo attori dalla lista si va oltre la dimensione
+				Actors = actorList.size();
+			}
+		}
+	}
+	else
+	{
+		delete_twin_links(valueToChange);
+		valueToChange = -1;
+	}
+	popupwindow->set_visible(false);
+}
+
 void Editor::on_button_ok_clicked(clan::PushButton *button)
 {
 	if(valueToChange < 0)
@@ -137,8 +168,9 @@ void Editor::on_button_ok_clicked(clan::PushButton *button)
 		toMod->set_text(lineedit->get_text());
 		for(int z = 0; z<actorList.size(); z++)
 		{
-			if(toMod == actorList.at(z)->label)
+			if(toMod == actorList.at(z)->label) //controlla l'attore interessato tramite l'indirizzo della sua label
 			{
+				if(spin->get_value() > 0)
 				actorList.at(z)->setMult(spin->get_value());
 			}
 		}
@@ -235,6 +267,42 @@ bool Editor::actor_create(const InputEvent &input_event)
 {
 	actorList.push_back(new Actor("Resources/actor.png",window,popupwindow,&toMod,0,500));
 	return true;
+}
+
+
+void Editor::delete_all_actor_links(int actor)
+{
+	
+	for(int z = 0; z < actorsLinked.size(); z++)
+	{
+		if(actorsLinked.at(z).x == actor || actorsLinked.at(z).y == actor)
+		{
+			delete_twin_links(z);
+			z = 0;
+		}
+
+	}
+}
+
+void Editor::delete_twin_links(int links)
+{
+	int other;
+		if(links%2 == 0) //numero pari, dunque il collegamento gemello è il successivo
+		{
+			other = links+1;
+
+			values.erase(values.begin()+links,values.begin()+other+1);
+			linkList.erase(linkList.begin()+links,linkList.begin()+other+1);
+			actorsLinked.erase(actorsLinked.begin()+links,actorsLinked.begin()+other+1);
+		}
+		else //numero dispari, il collegamento gemello è il precedente
+		{ 
+			other = links-1;
+			
+			values.erase(values.begin()+other,values.begin()+links+1);
+			linkList.erase(linkList.begin()+other,linkList.begin()+links+1);
+			actorsLinked.erase(actorsLinked.begin()+other,actorsLinked.begin()+links+1);
+		}
 }
 
 std::string Editor::intToString(int value) {
