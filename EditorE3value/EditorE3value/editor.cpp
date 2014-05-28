@@ -194,11 +194,18 @@ void Editor::on_window_draw(Canvas &canvas, const clan::Rect &clip_rect)
 	{
 		canvas.draw_line(linkList.at(z),Colorf::black);
 		clan::LineSegment2f* line = new LineSegment2f(linkList.at(z));
-		if(z % 2 == 0) //pari, vuol dire che è il segmento di andata
-			line->p.x -= values.at(z).length();  //dimensione della stringa / dimensione carattere 
+		//da fare:spostare il punto a circa 1/3 della retta, eq. parametrica
+		Pointf p(line->p);
 
-		line->p.y += 20;
-		font->draw_text(canvas,line->p,values.at(z),clan::Colorf(0,0,0));
+		float t = 0.35; //parametro equazione parametrica
+		p.x = line->p.x + t*(line->q.x - line->p.x); 
+		p.y = line->p.y + t*(line->q.y - line->p.y); 
+
+		if(z % 2 == 0) //pari, vuol dire che è il segmento di andata
+			p.x -= values.at(z).length();  //dimensione della stringa / dimensione carattere 
+
+		//line->p.y += 20;
+		font->draw_text(canvas,p,values.at(z),clan::Colorf(0,0,0));
 	}
 	for(int z = 0; z < actorsLinked.size(); z = z + 2) //assumiamo che siano pari perché esistono per forza due collegamenti per ogni attore
 	{
@@ -248,11 +255,18 @@ void Editor::on_right_mouse_click(const InputEvent &key)
 		Pointf p = key.mouse_pos;
 		for(int z = 0; z < values.size(); z++)
 		{
+			Pointf q(linkList.at(z).p);
+
+			float t = 0.35; //parametro equazione parametrica
+			q.x = linkList.at(z).p.x + t*(linkList.at(z).q.x - linkList.at(z).p.x); 
+			q.y = linkList.at(z).p.y + t*(linkList.at(z).q.y - linkList.at(z).p.y); 
+
+
 			clan::Rect* valueRect;
 			if(z%2 == 0)
-				valueRect = new clan::Rect(linkList.at(z).p.x - 10,linkList.at(z).p.y - 10,linkList.at(z).p.x + values.at(z).length()*10,linkList.at(z).p.y + 30);
+				valueRect = new clan::Rect(q.x - 10,q.y - 10,q.x + values.at(z).length()*10,q.y + 30);
 			else
-				valueRect = new clan::Rect(linkList.at(z).p.x - 10,linkList.at(z).p.y - 10,linkList.at(z).p.x + values.at(z).length()*10,linkList.at(z).p.y + 30);
+				valueRect = new clan::Rect(q.x - 10,q.y - 10,q.x + values.at(z).length()*10,q.y + 30);
 			if(valueRect->contains(p))
 			{
 				popupwindow->set_visible(true);//controlla che il click sia avvenuto sul testo
